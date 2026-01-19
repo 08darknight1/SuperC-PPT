@@ -8,12 +8,16 @@
 
 int GameMenu();
 
-int GetPlayerInput();
+int ResetTurnCount();
+
+int GetPlayerInput(int gamemode);
 
 int GetCPUInput();
 
-int CompareChoicesAndDefineWinner();
+int DefineWinner();
 
-int WinnerDisplay();
+int WinnerDisplay(int displayIndex);
+
+int PrintPlayersChoice(int player);
 
 #endif

@@ -20,7 +20,7 @@ int main(){
     
     while(inGame){
     	switch(menupart){
-    		case 0:
+    		case 0: //Carrega o menu principal
     			if(!loadedOptions)
 				{
     				MainMenu();
@@ -35,32 +35,33 @@ int main(){
    				    loadedOptions = false;
 				}
     		break;
-    		case 1:
+    		case 1: //Carrega batalha de player contra cpu
     			if(!loadedOptions){
 					GameMenu();
 					loadedOptions = true;
 				}
 				else
 				{
-	    			GetPlayerInput();
+	    			GetPlayerInput(0);
 	    			GetCPUInput();
-	    			if(CompareChoicesAndDefineWinner(menupart) == 1){
+	    			if(DefineWinner(menupart) == 1){
 	    				menupart = 0;
 					}
 					loadedOptions = false;
 				}
     		break;
-    		case 2:
+    		case 2: //Carrega batalha de player contra player
     			if(!loadedOptions){
 					GameMenu();
 					loadedOptions = true;
 				}
 				else
 				{
-	    			GetPlayerInput();
+					ResetTurnCount();
+	    			GetPlayerInput(1);
 	    			GameMenu();
-	    			GetPlayerInput();
-	    			if(CompareChoicesAndDefineWinner() == 1){
+	    			GetPlayerInput(1);
+	    			if(DefineWinner(menupart) == 1){
 	    				menupart = 0;
 					}
 					loadedOptions = false;
@@ -82,7 +83,7 @@ int main(){
     			ReturnToMainMenu();
     		break;
     		case 5:
-    			PrintFunctions(4, 3000, "Muito obrigado por jogar, espero que tenha gostado e volte Sempre!");
+    			PrintFunctions(4, 3000, "Muito obrigado por jogar, espero que tenha gostado e volte sempre!");
     			inGame = false;
     		break;
 		}
