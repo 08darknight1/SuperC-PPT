@@ -10,6 +10,10 @@ int GameMenu();
 
 int ResetTurnCount();
 
+int SetupTournament();
+
+int PlayTournament();
+
 int GetPlayerInput(int gamemode);
 
 int GetCPUInput();

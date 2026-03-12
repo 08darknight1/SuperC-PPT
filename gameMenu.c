@@ -9,12 +9,13 @@ bool loadedOptions = false;
 	
 int opcaoUser;
 
+int playerNumber;
 
 int main(){		
 	system("color b");
-	LoadingAnimation(500, true, 5, "-", "+");
-	PrintFunctions(3, 2000, "Bem vindo ao...");
-    PrintFunctions(3, 2000, "/SuperC P.P.T./Tournament Edition(V1.0)/");
+	LoadingAnimation(100, true, 3, "-", "+");
+	PrintFunctions(3, 1000, "Bem vindo ao...");
+    PrintFunctions(3, 1000, "/SuperC P.P.T./Tournament Edition(V1.0)/");
     
     ///Pra voltar para o Menu, a última instrução de print ou sleep tem que dar clear no texto e mudar o loadedoptions pra false
     
@@ -66,7 +67,11 @@ int main(){
 					}
 					loadedOptions = false;
 				}
-    		break;    		
+    		break;
+			case 3: //Tem que setar como o torneio vai funcionar
+				SetupTournament();
+				PlayTournament();
+			break;    		
     		case 4:
     			PrintFunctions(2, 4000, "Bom, meio estranho voce nao saber como jogar Pedra, Papel e Tesoura, mas vamos la...");
     			PrintFunctions(1, 3000, "\n\nMinimo de 2 jogadores, seja um outro humano ou a CPU!");
