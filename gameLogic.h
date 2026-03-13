@@ -14,14 +14,14 @@ int SetupTournament();
 
 int PlayTournament();
 
-int GetPlayerInput(int gamemode);
+int GetPlayerInput(int gamemode, char nameOfPlayer[]);
 
-int GetCPUInput();
+int GetCPUInput(char CpuName[], int playerTurn);
 
-int DefineWinner();
+int DefineWinner(int menupart, char firstPlayerName[], char secondPlayerName[]);
 
-int WinnerDisplay(int displayIndex);
+int WinnerDisplay(int displayIndex, char firstPlayerName[], char secondPlayerName[]);
 
-int PrintPlayersChoice(int player);
+int PrintPlayersChoice(char nameToPrint[], int choice);
 
 #endif

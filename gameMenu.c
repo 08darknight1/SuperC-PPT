@@ -43,9 +43,9 @@ int main(){
 				}
 				else
 				{
-	    			GetPlayerInput(0);
-	    			GetCPUInput();
-	    			if(DefineWinner(menupart) == 1){
+	    			GetPlayerInput(0, "JOGADOR");
+	    			GetCPUInput("CPU", 1);
+	    			if(DefineWinner(menupart, "","") == 1){
 	    				menupart = 0;
 					}
 					loadedOptions = false;
@@ -59,10 +59,10 @@ int main(){
 				else
 				{
 					ResetTurnCount();
-	    			GetPlayerInput(1);
+	    			GetPlayerInput(1, "Jogador 1");
 	    			GameMenu();
-	    			GetPlayerInput(1);
-	    			if(DefineWinner(menupart) == 1){
+	    			GetPlayerInput(1, "Jogador 2");
+	    			if(DefineWinner(menupart, "","") == 1){
 	    				menupart = 0;
 					}
 					loadedOptions = false;
