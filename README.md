@@ -23,7 +23,7 @@ Iniciei esse projeto quando tinha começado a programar, mas nunca dei continuid
 
 <img width="220" height="20" alt="image" src="https://github.com/user-attachments/assets/f8a67bf6-cb5c-46aa-9980-64ff7bdddbdf" />
 
-- Modo torneio de 2 até 128 jogadores, e com suporte para melhores de 3 até melhores de 9;
+- Modo torneio de 2 até 128 jogadores e com suporte para melhores de 3 - 5 - 7 & 9;
 
 <img width="220" height="20" alt="image" src="https://github.com/user-attachments/assets/7e609512-4af2-45b0-adea-bb1a959eeeb0" />
 
