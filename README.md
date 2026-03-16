@@ -79,6 +79,6 @@ The highlight of the project is definitely the tournament system. I think there 
 
 - As soon as you download the ZIP of the project, you just need to run ProjetoPPT.exe after extracting it;
 
-- As you can see from all the screenshots, all the options are in Portuguse as there is currently no version of this made in English. Maybe in the future I will work on one;
+- As you can see from the screenshots, all the options are in Portuguse as there is currently no version of this made in English. Maybe in the future I will work on one;
   
 - This entire project was written in C using the IDE <img width="20" height="20" alt="image" src="https://github.com/user-attachments/assets/39720ba6-91c0-4ac0-9dab-67c9f03aef88" />;
