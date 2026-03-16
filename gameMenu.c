@@ -113,6 +113,11 @@ int main()
     			PrintFunctions(1, 4000, "\n\nUnica execao disso seria no modo Versus ou quando os jogadores se enfrentam no torneio...");
     			PrintFunctions(1, 3000, "\n\nVai ser pedido pra cada jogador (de verdade) escolher enquanto o outro nao olha pra tela.");
     			PrintFunctions(1, 3000, "\n\nMeio estranho mas funciona. So nao ser babaca!");
+    			PrintFunctions(1, 3000, "\n\nJa no modo torneio, voce primeiro precisa escolher quantos Rounds os participantes jogam entre si!");
+    			PrintFunctions(1, 3000, "\n\nDepois, voce precisa escolher o numero total de participantes, e dizer quais sao humanos!");
+    			PrintFunctions(1, 3000, "\n\nPersonagens humanos digitam os seus nomes, enquanto personagens CPU tem um nome generico!");
+    			PrintFunctions(1, 3000, "\n\nNa ordem que os jogadores foram registrados, as disputas se iniciarao!");
+    			PrintFunctions(1, 3000, "\n\nAquele que vencer a final, se torna o grande campeao!");
     			PrintFunctions(1, 10000, "\n\nVou deixar as intrucoes aqui por mais um tempo, mas daqui a pouco voce volta pro menu!");
     			ReturnToMainMenu();
     		break;
