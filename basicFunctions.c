@@ -35,9 +35,8 @@ int PrintFunctions(int type, int sleepTime, char charToPrint[]){
 	}
 }
 
-int LoadingAnimation(int sleepTime, bool showLoadingText[], int loadingSize, char normalChar[], char specialChar[])
+int LoadingAnimation(int sleepTime, bool showLoadingText, int loadingSize, char normalChar[], char specialChar[])
 {
-	
 	if(loadingSize <= 0){
 		loadingSize = 12;
 	}

@@ -16,9 +16,13 @@ int PlayTournament();
 
 int GetPlayerInput(int gamemode, char nameOfPlayer[]);
 
-int GetCPUInput(char CpuName[], int playerTurn);
+int ShowCurrentScore(int playerArray[]);
 
-int DefineWinner(int menupart, char firstPlayerName[], char secondPlayerName[]);
+int GetCPUInput(int gamemode, char CpuName[], int playerTurn);
+
+int DefineRoundWinner(int menupart, char firstPlayerName[], char secondPlayerName[]);
+
+int DefineMatchWinner(int playerArray[]);
 
 int WinnerDisplay(int displayIndex, char firstPlayerName[], char secondPlayerName[]);
 

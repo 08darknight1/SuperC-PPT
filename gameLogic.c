@@ -24,6 +24,8 @@ int playerIsCPU[500];
 
 int playersWinsCount[2];
 
+int lastOptionRandomized;
+
 int GameMenu(){
 	PrintFunctions(6, 0, "0- Pedra;");
 	PrintFunctions(0, 0, "\n1- Papel;");
@@ -138,94 +140,154 @@ int SetupTournament()
 
 int PlayTournament()
 {
-	int playerIndex = 0;
-	
 	bool tournamentStillGoing = true;
 	
-	int playersSelectedArray[2] = {0, 0}; 
+	int playersSelectedArray[2] = {0, 0};
+	
+	for(int x = 0; x < sizeof(playerEliminated); x++)
+	{
+		playerEliminated[x] = false;	
+	}
+	
+	int playersSelected = 0;
 	
 	while(tournamentStillGoing)
-	{	
-		PrintFunctions(2, 2000, "Proximo Confronto: ");
-		
-		int playersSelected = 0;
-		
-		playersWinsCount[0] = 0;
-	
-		playersWinsCount[1] = 0;
-	
+	{				
 		for(int x = 0; x < numberOfPlayers; x++)
 		{	
 			if(!playerEliminated[x])
 			{
-				playersSelectedArray[playersSelected] = playerIndex;
+				playersSelectedArray[playersSelected] = x;
 				playersSelected++;
-				PrintFunctions(1, 1000, nameOfPlayers[playerIndex]);
 			}
 			
 			if(playersSelected >= 2)
 			{
-				break;
-			}
-			else if(playersSelected == 1)
-			{
+				PrintFunctions(2, 2000, "Proximo Confronto: ");
+				PrintFunctions(1, 1000, nameOfPlayers[playersSelectedArray[0]]);
 				PrintFunctions(1, 1000, " X ");
-			}
+				PrintFunctions(1, 1000, nameOfPlayers[playersSelectedArray[1]]);
+				
+				PrintFunctions(5, 0, "");
+		
+				for(int y = 0; y < bestOfMatches; y++)
+				{	
+					if(y >= 1)
+					{
+						ShowCurrentScore(playersSelectedArray);
+					}
+					
+					int winningNumber = 0;
 			
-			playerIndex++;
+					winningNumber = (bestOfMatches/2) + 1;
+			
+					if(playersWinsCount[0] >= winningNumber || playersWinsCount[1] >= winningNumber)
+					{
+						break;
+					}
+			
+					turnCount = 0;
+		
+					bool winnerForRoundDecided = false;
+			
+					while(!winnerForRoundDecided)
+					{				
+						if(playerIsCPU[playersSelectedArray[turnCount]])
+						{	
+							GetCPUInput(3, nameOfPlayers[playersSelectedArray[turnCount]], turnCount);
+							turnCount++;
+						}
+						else
+						{	
+							char messageToPrint[500] = "";
+					
+							strcat(messageToPrint, "Chegou sua vez ");
+					
+							strcat(messageToPrint, nameOfPlayers[playersSelectedArray[turnCount]]);
+					
+							strcat(messageToPrint, "!!!");
+					
+							PrintFunctions(2, 2000, messageToPrint);
+					
+							GameMenu();
+
+							GetPlayerInput(3, nameOfPlayers[playersSelectedArray[turnCount]]);
+						}
+				
+						if(turnCount >= 2)
+						{
+							PrintPlayersChoice(nameOfPlayers[playersSelectedArray[0]], firstPlayerChoice);
+							PrintPlayersChoice(nameOfPlayers[playersSelectedArray[1]], secondPlayerChoice);
+				
+							int winner = DefineRoundWinner(3, nameOfPlayers[playersSelectedArray[0]], nameOfPlayers[playersSelectedArray[1]]);
+				
+							if(winner >= 1)
+							{
+								winnerForRoundDecided = true;
+							}
+							else
+							{
+								turnCount = 0;
+							}
+						}
+					}	
+				}
+				
+				DefineMatchWinner(playersSelectedArray);
+				playersSelected = 0;
+			}
 		}
 		
-		PrintFunctions(5, 0, "");
+		//aqui coloca aquele ifzão que se tiver só 1 no playerselected, esse querido é o vencedor do torneio
 		
-		for(int x = 0; x < bestOfMatches; x++)
+		if(playersSelected == 1)
 		{
-			if(x >= 1)
-			{
-				char player0StringWin[] = "100";
-				char player1StringWin[] = "100";
-				
-				sprintf(player0StringWin, "%d", playersWinsCount[0]);
-				sprintf(player1StringWin, "%d", playersWinsCount[1]);
-				
-				PrintFunctions(2, 500, nameOfPlayers[playersSelectedArray[0]]);
-				PrintFunctions(1, 500, " (");
-				PrintFunctions(1, 500, player0StringWin);
-				PrintFunctions(1, 500, ")-");
-				PrintFunctions(1, 500, "X");
-				PrintFunctions(1, 500, "-(");
-				PrintFunctions(1, 500, player1StringWin);
-				PrintFunctions(1, 500, ") ");
-				PrintFunctions(1, 3000, nameOfPlayers[playersSelectedArray[1]]);
-			}
-					
-			turnCount = 0;
-		
-			bool winnerForRoundDecided = false;
-		
-			while(!winnerForRoundDecided)
-			{
-				if(playerIsCPU[playersSelectedArray[turnCount]])
-				{	
-					GetCPUInput(nameOfPlayers[playersSelectedArray[turnCount]], turnCount);
-					turnCount++;
-				}
-				
-				if(turnCount >= 2)
-				{
-					int winner = DefineWinner(3, nameOfPlayers[playersSelectedArray[0]], nameOfPlayers[playersSelectedArray[1]] );
-				
-					if(winner >= 1)
-					{
-						winnerForRoundDecided = true;
-					}
-					else
-					{
-						turnCount = 0;	
-					}
-				}
-			}	
+			PrintFunctions(2, 1000, "E finalmente temos o grande vencedor do torneio!");
+			
+			PrintFunctions(1, 2000, " Uma salva de palmas para... ");
+			
+			char winnerName[50] = "\n\n";
+			
+			strcat(winnerName, nameOfPlayers[playersSelectedArray[0]]);
+			
+			strcat(winnerName, "!!!");
+			
+			PrintFunctions(1, 2000, winnerName);
+			
+			PrintFunctions(1, 0, "\n\n");
+			
+			char finalMessage[300] = "Obrigado a todos por participar e novamente parabens a ";
+			
+			strcat(finalMessage, nameOfPlayers[playersSelectedArray[0]]);
+			
+			strcat(finalMessage, " pela incrivel gameplay!");
+			
+			PrintFunctions(1, 6000, finalMessage);
+			
+			tournamentStillGoing = false;
+			
+			break;
 		}
 	}
+}
+
+int ShowCurrentScore(int playerArray[])
+{
+	char player0StringWin[] = "100";
+	char player1StringWin[] = "100";
+				
+	sprintf(player0StringWin, "%d", playersWinsCount[0]);
+	sprintf(player1StringWin, "%d", playersWinsCount[1]);
+			
+	PrintFunctions(2, 500, nameOfPlayers[playerArray[0]]);
+	PrintFunctions(1, 500, " (");
+	PrintFunctions(1, 500, player0StringWin);
+	PrintFunctions(1, 500, ")-");
+	PrintFunctions(1, 500, "X");
+	PrintFunctions(1, 500, "-(");
+	PrintFunctions(1, 500, player1StringWin);
+	PrintFunctions(1, 500, ") ");
+	PrintFunctions(1, 3000, nameOfPlayers[playerArray[1]]);
 }
 
 int GetPlayerInput(int gamemode, char nameOfPlayer[])
@@ -245,36 +307,52 @@ int GetPlayerInput(int gamemode, char nameOfPlayer[])
 	{
 		scanf("%d", &secondPlayerChoice);
 		
-		/* Precisa refazer como ele faz o display de quando é player contra player
 		if(gamemode == 1)
 		{
-			PrintPlayersChoice(2);
-			PrintPlayersChoice(3);
-		}			
-		*/	
+			PrintPlayersChoice("JOGADOR 1", firstPlayerChoice);
+			PrintPlayersChoice("JOGADOR 2", secondPlayerChoice);
+		}				
 	}
 	
 	turnCount++;	
 }
 
-int GetCPUInput(char CpuName[], int playerTurn){
+int GetCPUInput(int gamemode, char CpuName[], int playerTurn){
 	srand(time(NULL)); ///SRAND PRECISA INICIALIZAR COM UMA SEED FIXA PRA GERAR OS NÚMEROS. POREM COMO ISSO FICA HORRIVEL, COLOCASE TIME ALI
 	
 	if(playerTurn == 1)
 	{
-		secondPlayerChoice = rand() % 3; //ESSA PORCENTAGEM + NUMERO EH O VALOR MAXIMO PARA A GERACAO MAS N EH INCLUSIVO
-		PrintPlayersChoice(CpuName, secondPlayerChoice);
+		while(secondPlayerChoice == lastOptionRandomized)
+		{
+			secondPlayerChoice = rand() % 3; //ESSA PORCENTAGEM + NUMERO EH O VALOR MAXIMO PARA A GERACAO MAS N EH INCLUSIVO
+		
+			if(gamemode != 3)
+			{
+				PrintPlayersChoice(CpuName, secondPlayerChoice);
+			}
+		}
+		
+		lastOptionRandomized = secondPlayerChoice;
 	}
 	else
-	{
-		firstPlayerChoice = rand() % 3; //ESSA PORCENTAGEM + NUMERO EH O VALOR MAXIMO PARA A GERACAO MAS N EH INCLUSIVO		
-		PrintPlayersChoice(CpuName, firstPlayerChoice);
+	{		
+		while(firstPlayerChoice == lastOptionRandomized)
+		{
+			firstPlayerChoice = rand() % 3; //ESSA PORCENTAGEM + NUMERO EH O VALOR MAXIMO PARA A GERACAO MAS N EH INCLUSIVO
+					
+			if(gamemode != 3)
+			{
+				PrintPlayersChoice(CpuName, firstPlayerChoice);
+			}
+		}
+				
+		lastOptionRandomized = firstPlayerChoice;
 	}
 }
 
 //ESCOLHI PEDRA, O CPU TESOURA E ELE GANHOU WTF
 
-int DefineWinner(int menupart, char firstPlayerName[], char secondPlayerName[]){ //0 ganha de 2 -||- 2 ganha de 1 -||- 1 ganha de 0
+int DefineRoundWinner(int menupart, char firstPlayerName[], char secondPlayerName[]){ //0 ganha de 2 -||- 2 ganha de 1 -||- 1 ganha de 0
 
 	turnCount = 0;
 	
@@ -284,7 +362,6 @@ int DefineWinner(int menupart, char firstPlayerName[], char secondPlayerName[]){
 	}
 	else if(firstPlayerChoice == 0)
 	{
-
 		if(secondPlayerChoice == 2) //0 ganha de 2 -||- 2 ganha de 1 -||- 1 ganha de 0
 		{
 			if(menupart == 1)
@@ -395,6 +472,39 @@ int DefineWinner(int menupart, char firstPlayerName[], char secondPlayerName[]){
 	}
 	
 	return 0;
+}
+
+int DefineMatchWinner(int playerArray[])
+{
+	int winningNumber = 1;
+			
+	if(bestOfMatches != 1)
+	{
+		winningNumber = (bestOfMatches/2) + 1;
+	}
+				
+	char winnerName[50] = "";
+			
+	if(playersWinsCount[0] >= winningNumber)
+	{	
+		playerEliminated[playerArray[1]] = true;
+		strcat(winnerName, nameOfPlayers[playerArray[0]]);
+	}
+	else if(playersWinsCount[1] >= winningNumber)
+	{
+		playerEliminated[playerArray[0]] = true;
+		strcat(winnerName, nameOfPlayers[playerArray[1]]);
+	}
+				
+	strcat(winnerName, "!!!");
+				
+	PrintFunctions(2, 1000, "E o vencedor eh... ");
+	PrintFunctions(1, 3000, winnerName);
+					
+	playersWinsCount[0] = 0;
+	playersWinsCount[1] = 0;
+	playerArray[0] = 0;
+	playerArray[1] = 1;		
 }
 
 int WinnerDisplay(int displayIndex, char firstPlayerName[], char secondPlayerName[])
