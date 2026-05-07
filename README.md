@@ -41,8 +41,7 @@ O highlight e realmente a parte que mais deu trabalho foi o sistema de torneio. 
 
 - Assim que baixar o ZIP do projeto, basta extrai-lo e rodar o ProjetoPPT.exe;
   
-- Todo esse projeto foi feito utilizando C na IDE do <img width="20" height="20" alt="image" src="https://github.com/user-attachments/assets/39720ba6-91c0-4ac0-9dab-67c9f03aef88" />;
-
+- Todo esse projeto foi feito utilizando C na IDE do <img align="top" src="https://github.com/user-attachments/assets/39720ba6-91c0-4ac0-9dab-67c9f03aef88" alt="Alt Text" style="width:2%; height:auto;">
 <h2>
     
 </h2>
@@ -81,4 +80,4 @@ The highlight of the project is definitely the tournament system. I think there 
 
 - As you can see from the screenshots, all the options are in Portuguse as there is currently no version of this made in English. Maybe in the future I will work on one;
   
-- This entire project was written in C using the IDE <img width="20" height="20" alt="image" src="https://github.com/user-attachments/assets/39720ba6-91c0-4ac0-9dab-67c9f03aef88" />;
+- This entire project was written in C using the IDE <img align="top" src="https://github.com/user-attachments/assets/39720ba6-91c0-4ac0-9dab-67c9f03aef88" alt="Alt Text" style="width:2%; height:auto;">
