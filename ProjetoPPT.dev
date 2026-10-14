@@ -24,12 +24,12 @@ HostApplication=
 UseCustomMakefile=0
 CustomMakefile=
 CommandLine=
-Folders=
+Folders="Console Functions","Game Logic",Main,"Player Profile"
 IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=0
 CompilerSettings=0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
-UnitCount=5
+UnitCount=7
 
 [VersionInfo]
 Major=1
@@ -53,7 +53,7 @@ SyncProduct=1
 [Unit1]
 FileName=gameMenu.c
 CompileCpp=0
-Folder=
+Folder=Main
 Compile=1
 Link=1
 Priority=1000
@@ -63,7 +63,7 @@ BuildCmd=
 [Unit3]
 FileName=basicFunctions.h
 CompileCpp=0
-Folder=
+Folder=Console Functions
 Compile=1
 Link=1
 Priority=1000
@@ -73,7 +73,7 @@ BuildCmd=
 [Unit2]
 FileName=basicFunctions.c
 CompileCpp=0
-Folder=
+Folder=Console Functions
 Compile=1
 Link=1
 Priority=1000
@@ -83,7 +83,7 @@ BuildCmd=
 [Unit4]
 FileName=gameLogic.c
 CompileCpp=0
-Folder=
+Folder=Game Logic
 Compile=1
 Link=1
 Priority=1000
@@ -93,7 +93,27 @@ BuildCmd=
 [Unit5]
 FileName=gameLogic.h
 CompileCpp=0
-Folder=
+Folder=Game Logic
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit6]
+FileName=playerProfile.h
+CompileCpp=0
+Folder=Player Profile
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit7]
+FileName=playerProfile.c
+CompileCpp=0
+Folder=Player Profile
 Compile=1
 Link=1
 Priority=1000

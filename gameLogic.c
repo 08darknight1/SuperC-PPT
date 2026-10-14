@@ -1,12 +1,11 @@
 #include "gameLogic.h"
+#include "playerProfile.h"
 
 #include <stdio.h>
 
 //VARs para o gameplay no geral
 
-int firstPlayerChoice;
-
-int secondPlayerChoice;
+int playersChoice[2];
 
 int turnCount = 0;
 
@@ -16,17 +15,27 @@ int bestOfMatches;
 
 int numberOfPlayers;
 
-char nameOfPlayers[500][500];
+//char nameOfPlayers[500][500]; //Tenho que remover
 
-bool playerEliminated[500];
+//bool playerEliminated[500]; //Tenho que remover
 
-int playerIsCPU[500];
+//int playerIsCPU[500]; //Tenho que remover
+
+struct Player totalPlayers[];
 
 int playersWinsCount[2];
 
 int lastOptionRandomized;
 
+bool cpuAlreadyPlayed = false;
+
 int GameMenu(){
+	/*if(playersChoice[0] == NULL || playersChoice[1] == NULL)
+	{
+		playersChoice[0] = -1;
+		playersChoice[1] = -1;
+	}*/
+	
 	PrintFunctions(6, 0, "0- Pedra;");
 	PrintFunctions(0, 0, "\n1- Papel;");
 	PrintFunctions(0, 0, "\n2- Tesoura;");
@@ -80,6 +89,8 @@ int SetupTournament()
 	
 	int cont = 0;
 	
+	totalPlayers[numberOfPlayers];
+	
 	for(cont; cont < numberOfPlayers; cont++)
 	{	
 		char contButInString [500] = "";
@@ -105,13 +116,17 @@ int SetupTournament()
 		
 		scanf("%d", &isCPUorNot);
 		
-		playerIsCPU[cont] = isCPUorNot;
+		if(isCPUorNot == 1)
+		{
+			totalPlayers[cont].PlayerIsCPU = true;
+		}
 		
 		if(isCPUorNot == 0)
 		{
+			totalPlayers[cont].PlayerIsCPU = false;
 			PrintFunctions(2, 1000, "Qual sera o nome do jogador?");
 			PrintFunctions(0, 0, "\n//-:");
-			scanf("%s", &nameOfPlayers[cont]);
+			scanf("%s", &totalPlayers[cont].PlayerName);
 		}
 		else
 		{
@@ -133,7 +148,7 @@ int SetupTournament()
 			sprintf(NTRLInString, "%d", nameToRegisterLength); //Colocando o valor do length em uma string pra um print que não existe mais
 			*/
 			
-			strncpy(nameOfPlayers[cont], CpuNameToRegister, nameToRegisterLength);
+			strncpy(totalPlayers[cont].PlayerName, CpuNameToRegister, nameToRegisterLength);
 		}
 	}
 }
@@ -144,9 +159,9 @@ int PlayTournament()
 	
 	int playersSelectedArray[2] = {0, 0};
 	
-	for(int x = 0; x < sizeof(playerEliminated); x++)
+	for(int x = 0; x < numberOfPlayers; x++)
 	{
-		playerEliminated[x] = false;	
+		totalPlayers[x].PlayerEliminated = false;	
 	}
 	
 	int playersSelected = 0;
@@ -155,7 +170,7 @@ int PlayTournament()
 	{				
 		for(int x = 0; x < numberOfPlayers; x++)
 		{	
-			if(!playerEliminated[x])
+			if(!totalPlayers[x].PlayerEliminated)
 			{
 				playersSelectedArray[playersSelected] = x;
 				playersSelected++;
@@ -164,9 +179,9 @@ int PlayTournament()
 			if(playersSelected >= 2)
 			{
 				PrintFunctions(2, 2000, "Proximo Confronto: ");
-				PrintFunctions(1, 1000, nameOfPlayers[playersSelectedArray[0]]);
+				PrintFunctions(1, 1000, totalPlayers[playersSelectedArray[0]].PlayerName);
 				PrintFunctions(1, 1000, " X ");
-				PrintFunctions(1, 1000, nameOfPlayers[playersSelectedArray[1]]);
+				PrintFunctions(1, 1000, totalPlayers[playersSelectedArray[1]].PlayerName);
 				
 				PrintFunctions(5, 0, "");
 		
@@ -189,12 +204,14 @@ int PlayTournament()
 					turnCount = 0;
 		
 					bool winnerForRoundDecided = false;
+					
+					cpuAlreadyPlayed = false;
 			
 					while(!winnerForRoundDecided)
 					{				
-						if(playerIsCPU[playersSelectedArray[turnCount]])
+						if(totalPlayers[playersSelectedArray[turnCount]].PlayerIsCPU)
 						{	
-							GetCPUInput(3, nameOfPlayers[playersSelectedArray[turnCount]], turnCount);
+							GetCPUInput(3, totalPlayers[playersSelectedArray[turnCount]].PlayerName, turnCount);
 							turnCount++;
 						}
 						else
@@ -203,7 +220,7 @@ int PlayTournament()
 					
 							strcat(messageToPrint, "Chegou sua vez ");
 					
-							strcat(messageToPrint, nameOfPlayers[playersSelectedArray[turnCount]]);
+							strcat(messageToPrint, totalPlayers[playersSelectedArray[turnCount]].PlayerName);
 					
 							strcat(messageToPrint, "!!!");
 					
@@ -211,15 +228,15 @@ int PlayTournament()
 					
 							GameMenu();
 
-							GetPlayerInput(3, nameOfPlayers[playersSelectedArray[turnCount]]);
+							GetPlayerInput(3, totalPlayers[playersSelectedArray[turnCount]].PlayerName);
 						}
 				
 						if(turnCount >= 2)
 						{
-							PrintPlayersChoice(nameOfPlayers[playersSelectedArray[0]], firstPlayerChoice);
-							PrintPlayersChoice(nameOfPlayers[playersSelectedArray[1]], secondPlayerChoice);
+							PrintPlayersChoice(totalPlayers[playersSelectedArray[0]].PlayerName, playersChoice[0]);
+							PrintPlayersChoice(totalPlayers[playersSelectedArray[1]].PlayerName, playersChoice[1]);
 				
-							int winner = DefineRoundWinner(3, nameOfPlayers[playersSelectedArray[0]], nameOfPlayers[playersSelectedArray[1]]);
+							int winner = DefineRoundWinner(3, totalPlayers[playersSelectedArray[0]].PlayerName, totalPlayers[playersSelectedArray[1]].PlayerName);
 				
 							if(winner >= 1)
 							{
@@ -248,7 +265,7 @@ int PlayTournament()
 			
 			char winnerName[50] = "\n\n";
 			
-			strcat(winnerName, nameOfPlayers[playersSelectedArray[0]]);
+			strcat(winnerName, totalPlayers[playersSelectedArray[0]].PlayerName);
 			
 			strcat(winnerName, "!!!");
 			
@@ -258,7 +275,7 @@ int PlayTournament()
 			
 			char finalMessage[300] = "Obrigado a todos por participar e novamente parabens a ";
 			
-			strcat(finalMessage, nameOfPlayers[playersSelectedArray[0]]);
+			strcat(finalMessage, totalPlayers[playersSelectedArray[0]].PlayerName);
 			
 			strcat(finalMessage, " pela incrivel gameplay!");
 			
@@ -279,7 +296,7 @@ int ShowCurrentScore(int playerArray[])
 	sprintf(player0StringWin, "%d", playersWinsCount[0]);
 	sprintf(player1StringWin, "%d", playersWinsCount[1]);
 			
-	PrintFunctions(2, 500, nameOfPlayers[playerArray[0]]);
+	PrintFunctions(2, 500, totalPlayers[playerArray[0]].PlayerName);
 	PrintFunctions(1, 500, " (");
 	PrintFunctions(1, 500, player0StringWin);
 	PrintFunctions(1, 500, ")-");
@@ -287,7 +304,7 @@ int ShowCurrentScore(int playerArray[])
 	PrintFunctions(1, 500, "-(");
 	PrintFunctions(1, 500, player1StringWin);
 	PrintFunctions(1, 500, ") ");
-	PrintFunctions(1, 3000, nameOfPlayers[playerArray[1]]);
+	PrintFunctions(1, 3000, totalPlayers[playerArray[1]].PlayerName);
 }
 
 int GetPlayerInput(int gamemode, char nameOfPlayer[])
@@ -296,21 +313,21 @@ int GetPlayerInput(int gamemode, char nameOfPlayer[])
 				
 	if(turnCount == 0)
 	{
-		scanf("%d", &firstPlayerChoice);
+		scanf("%d", &playersChoice[0]);
 		
 		if(gamemode == 0)
 		{
-			PrintPlayersChoice(nameOfPlayer, firstPlayerChoice);
+			PrintPlayersChoice(nameOfPlayer, playersChoice[0]);
 		}
 	}
 	else
 	{
-		scanf("%d", &secondPlayerChoice);
+		scanf("%d", &playersChoice[1]);
 		
 		if(gamemode == 1)
 		{
-			PrintPlayersChoice("JOGADOR 1", firstPlayerChoice);
-			PrintPlayersChoice("JOGADOR 2", secondPlayerChoice);
+			PrintPlayersChoice("JOGADOR 1", playersChoice[0]);
+			PrintPlayersChoice("JOGADOR 2", playersChoice[1]);
 		}				
 	}
 	
@@ -322,32 +339,48 @@ int GetCPUInput(int gamemode, char CpuName[], int playerTurn){
 	
 	if(playerTurn == 1)
 	{
-		while(secondPlayerChoice == lastOptionRandomized)
+		if(cpuAlreadyPlayed)
 		{
-			secondPlayerChoice = rand() % 3; //ESSA PORCENTAGEM + NUMERO EH O VALOR MAXIMO PARA A GERACAO MAS N EH INCLUSIVO
-		
-			if(gamemode != 3)
+			while(playersChoice[1] == lastOptionRandomized)
 			{
-				PrintPlayersChoice(CpuName, secondPlayerChoice);
+				playersChoice[1] = rand() % 3; //ESSA PORCENTAGEM + NUMERO EH O VALOR MAXIMO PARA A GERACAO MAS N EH INCLUSIVO
 			}
 		}
+		else
+		{
+			playersChoice[1] = rand() % 3;
+		}
+
+		if(gamemode != 3)
+		{
+			PrintPlayersChoice(CpuName, playersChoice[1]);
+		}
 		
-		lastOptionRandomized = secondPlayerChoice;
+		lastOptionRandomized = playersChoice[1];
 	}
 	else
 	{		
-		while(firstPlayerChoice == lastOptionRandomized)
+		if(cpuAlreadyPlayed)
 		{
-			firstPlayerChoice = rand() % 3; //ESSA PORCENTAGEM + NUMERO EH O VALOR MAXIMO PARA A GERACAO MAS N EH INCLUSIVO
-					
-			if(gamemode != 3)
+			while(playersChoice[0] == lastOptionRandomized)
 			{
-				PrintPlayersChoice(CpuName, firstPlayerChoice);
+				playersChoice[0] = rand() % 3; //ESSA PORCENTAGEM + NUMERO EH O VALOR MAXIMO PARA A GERACAO MAS N EH INCLUSIVO
 			}
 		}
+		else
+		{
+			playersChoice[0] = rand() % 3;
+		}
+		
+		if(gamemode != 3)
+		{
+			PrintPlayersChoice(CpuName, playersChoice[0]);
+		}
 				
-		lastOptionRandomized = firstPlayerChoice;
+		lastOptionRandomized = playersChoice[0];
 	}
+	
+	cpuAlreadyPlayed = true;
 }
 
 //ESCOLHI PEDRA, O CPU TESOURA E ELE GANHOU WTF
@@ -355,14 +388,27 @@ int GetCPUInput(int gamemode, char CpuName[], int playerTurn){
 int DefineRoundWinner(int menupart, char firstPlayerName[], char secondPlayerName[]){ //0 ganha de 2 -||- 2 ganha de 1 -||- 1 ganha de 0
 
 	turnCount = 0;
+	/* DEBUG FOR CHOICES
+	char p1Choice [2] = "";
+	char p2Choice [1] = "";
+		
+	sprintf(p1Choice, "%d", playersChoice[0]);
+	sprintf(p2Choice, "%d", playersChoice[1]);
 	
-	if(firstPlayerChoice == secondPlayerChoice)
+	PrintFunctions(1, 3000, "\n\nDEBUG: Players choice:\n\nP1-(");
+	PrintFunctions(1, 1000, p1Choice);
+	PrintFunctions(1, 1000, ")\n\nP2-(");
+	PrintFunctions(1, 1000, p2Choice);
+	PrintFunctions(1, 10000, ")");*/
+	
+	if(playersChoice[0] == playersChoice[1])
 	{
 		PrintFunctions(1, 3000, "\n\nEMPATE!");
+		return 0;
 	}
-	else if(firstPlayerChoice == 0)
+	else if(playersChoice[0] == 0)
 	{
-		if(secondPlayerChoice == 2) //0 ganha de 2 -||- 2 ganha de 1 -||- 1 ganha de 0
+		if(playersChoice[1] == 2) //0 ganha de 2 -||- 2 ganha de 1 -||- 1 ganha de 0
 		{
 			if(menupart == 1)
 			{
@@ -378,7 +424,7 @@ int DefineRoundWinner(int menupart, char firstPlayerName[], char secondPlayerNam
 			 	playersWinsCount[0]++;
 			}
 		}
-		else if(secondPlayerChoice == 1)
+		else if(playersChoice[1] == 1)
 		{		
 			if(menupart == 1)
 			{
@@ -397,9 +443,9 @@ int DefineRoundWinner(int menupart, char firstPlayerName[], char secondPlayerNam
 			
 		return 1;
 	}
-	else if(firstPlayerChoice == 1)
+	else if(playersChoice[0] == 1)
 	{
-		if(secondPlayerChoice == 0) //0 ganha de 2 -||- 2 ganha de 1 -||- 1 ganha de 0
+		if(playersChoice[1] == 0) //0 ganha de 2 -||- 2 ganha de 1 -||- 1 ganha de 0
 		{
 			if(menupart == 1)
 			{
@@ -415,7 +461,7 @@ int DefineRoundWinner(int menupart, char firstPlayerName[], char secondPlayerNam
 			 	playersWinsCount[0]++;
 			}
 		}
-		else if(secondPlayerChoice == 2)
+		else if(playersChoice[1] == 2)
 		{		
 			if(menupart == 1)
 			{
@@ -434,9 +480,9 @@ int DefineRoundWinner(int menupart, char firstPlayerName[], char secondPlayerNam
 				
 		return 1;
 	}
-	else if(firstPlayerChoice == 2)
+	else if(playersChoice[0] == 2)
 	{
-		if(secondPlayerChoice == 1) //0 ganha de 2 -||- 2 ganha de 1 -||- 1 ganha de 0
+		if(playersChoice[1] == 1) //0 ganha de 2 -||- 2 ganha de 1 -||- 1 ganha de 0
 		{
 			if(menupart == 1)
 			{
@@ -452,7 +498,7 @@ int DefineRoundWinner(int menupart, char firstPlayerName[], char secondPlayerNam
 			 	playersWinsCount[0]++;
 			}
 		}
-		else if(secondPlayerChoice == 0)
+		else if(playersChoice[1] == 0)
 		{		
 			if(menupart == 1)
 			{
@@ -471,6 +517,8 @@ int DefineRoundWinner(int menupart, char firstPlayerName[], char secondPlayerNam
 		return 1;
 	}
 	
+	PrintFunctions(1, 5000, "\n\nERRO! Nenhum resultado pode ser estipulado para o confronto!");
+	
 	return 0;
 }
 
@@ -487,13 +535,13 @@ int DefineMatchWinner(int playerArray[])
 			
 	if(playersWinsCount[0] >= winningNumber)
 	{	
-		playerEliminated[playerArray[1]] = true;
-		strcat(winnerName, nameOfPlayers[playerArray[0]]);
+		totalPlayers[playerArray[1]].PlayerEliminated = true;
+		strcat(winnerName, totalPlayers[playerArray[0]].PlayerName);
 	}
 	else if(playersWinsCount[1] >= winningNumber)
 	{
-		playerEliminated[playerArray[0]] = true;
-		strcat(winnerName, nameOfPlayers[playerArray[1]]);
+		totalPlayers[playerArray[0]].PlayerEliminated = true;
+		strcat(winnerName, totalPlayers[playerArray[1]].PlayerName);
 	}
 				
 	strcat(winnerName, "!!!");

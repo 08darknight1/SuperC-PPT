@@ -67,13 +67,15 @@ int main()
 					loadedOptions = true;
 				}
 				else
-				{
-	    			GetPlayerInput(0, "JOGADOR");
+				{					
+					GetPlayerInput(0, "JOGADOR");
 	    			GetCPUInput(menupart, "CPU", 1);
-	    			if(DefineRoundWinner(menupart, "","") == 1)
+											
+					if(DefineRoundWinner(menupart, "","") == 1)
 					{
-	    				menupart = 0;
+						menupart = 0;
 					}
+					
 					loadedOptions = false;
 				}
     		break;
